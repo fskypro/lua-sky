@@ -122,6 +122,7 @@
         fsky.logfmt.info
         fsky.logfmt.error
         fsky.logfmt.warn
+        fsky.logfmt.hack
         fsky.logfmt.trace
             type：function
             说明：返回 log 格式字符串，可传入多个参数，以空格分隔输出各个参数
@@ -132,6 +133,7 @@
         fsky.logfmt.infof
         fsky.logfmt.errorf
         fsky.logfmt.warnf
+        fsky.logfmt.hackf
         fsky.logfmt.tracef
             type：function
             说明：返回 log 格式字符串，可传入多个参数以对第一个参数进行格式化
