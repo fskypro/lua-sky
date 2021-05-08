@@ -1,0 +1,9 @@
+local dflog = require("fsky").gDFLog
+
+dflog.init("test", "./logs")
+dflog.debug("123", "456")
+dflog.trace("aaaa", "bbbbb")
+
+dflog.infof("xxxxx: %d", 200)
+dflog.tracef("yyyy: %s", "嘿嘿")
+

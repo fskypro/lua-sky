@@ -1,0 +1,17 @@
+local array = require "fstable.array"
+
+local function dump(arr)
+	array.travel(arr, function(i, v)
+		print(i, v)
+	end
+	)
+end
+
+local arr = {nil, "xxx", nil, "yyyy", "zzzz", 100, 2000, nil}
+local a = array.slice(arr, 1, 4)
+print(#a)
+dump(a)
+
+local aa = {}
+aa[2] = 100
+dump(aa)

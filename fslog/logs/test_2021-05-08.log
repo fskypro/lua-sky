@@ -1,0 +1,98 @@
+-------------------------------------------------- 13:10:55 --------------------------------------------------
+[DEBUG]|2021-05-08 13:10:55.746 dayfilelog_test.lua:4: 123 456
+[HACK] |2021-05-08 13:10:55.834 dayfilelog_test.lua:5: 456 789
+[TRACE]|2021-05-08 13:10:55.896 dayfilelog_test.lua:6: aaaa bbbbb
+  traceback:
+    dayfilelog_test.lua:6
+      [C]:-1
+[HACK] |2021-05-08 13:10:55.965 dayfilelog_test.lua:8: aaaaaa: hehe
+[INFO] |2021-05-08 13:10:55.015 dayfilelog_test.lua:9: xxxxx: 200
+[ERROR]|2021-05-08 13:10:55.071 dayfilelog_test.lua:10: vvvvv: 200
+[TRACE]|2021-05-08 13:10:55.118 dayfilelog_test.lua:11: yyyy: 嘿嘿
+  traceback:
+    dayfilelog_test.lua:11
+      [C]:-1
+-------------------------------------------------- 13:13:35 --------------------------------------------------
+[DEBUG]|2021-05-08 13:13:35.63   dayfilelog_test.lua:4: 123 456
+[HACK] |2021-05-08 13:13:35.51   dayfilelog_test.lua:5: 456 789
+[TRACE]|2021-05-08 13:13:35.04   dayfilelog_test.lua:6: aaaa bbbbb
+  traceback:
+    dayfilelog_test.lua:6
+      [C]:-1
+[HACK] |2021-05-08 13:13:35.72   dayfilelog_test.lua:8: aaaaaa: hehe
+[INFO] |2021-05-08 13:13:35.36   dayfilelog_test.lua:9: xxxxx: 200
+[ERROR]|2021-05-08 13:13:35.13   dayfilelog_test.lua:10: vvvvv: 200
+[TRACE]|2021-05-08 13:13:35.71   dayfilelog_test.lua:11: yyyy: 嘿嘿
+  traceback:
+    dayfilelog_test.lua:11
+      [C]:-1
+-------------------------------------------------- 13:24:13 --------------------------------------------------
+[DEBUG]|2021-05-08 13:24:13.83   dayfilelog_test.lua:4: 123 456
+[HACK] |2021-05-08 13:24:13.65   dayfilelog_test.lua:5: 456 789
+[TRACE]|2021-05-08 13:24:13.19   dayfilelog_test.lua:6: aaaa bbbbb
+  traceback:
+    dayfilelog_test.lua:6
+      [C]:-1
+[HACK] |2021-05-08 13:24:13.88   dayfilelog_test.lua:8: aaaaaa: hehe
+[INFO] |2021-05-08 13:24:13.38   dayfilelog_test.lua:9: xxxxx: 200
+[ERROR]|2021-05-08 13:24:13.11   dayfilelog_test.lua:10: vvvvv: 200
+[TRACE]|2021-05-08 13:24:13.68   dayfilelog_test.lua:11: yyyy: 嘿嘿
+  traceback:
+    dayfilelog_test.lua:11
+      [C]:-1
+-------------------------------------------------- 13:31:12 --------------------------------------------------
+[DEBUG]|2021-05-08 13:31:128738 dayfilelog_test.lua:4: 123 456
+[HACK] |2021-05-08 13:31:128806 dayfilelog_test.lua:5: 456 789
+[TRACE]|2021-05-08 13:31:128865 dayfilelog_test.lua:6: aaaa bbbbb
+  traceback:
+    dayfilelog_test.lua:6
+      [C]:-1
+[HACK] |2021-05-08 13:31:128928 dayfilelog_test.lua:8: aaaaaa: hehe
+[INFO] |2021-05-08 13:31:128973 dayfilelog_test.lua:9: xxxxx: 200
+[ERROR]|2021-05-08 13:31:129028 dayfilelog_test.lua:10: vvvvv: 200
+[TRACE]|2021-05-08 13:31:129073 dayfilelog_test.lua:11: yyyy: 嘿嘿
+  traceback:
+    dayfilelog_test.lua:11
+      [C]:-1
+-------------------------------------------------- 13:33:22 --------------------------------------------------
+[DEBUG]|2021-05-08 13:33:22.8943 dayfilelog_test.lua:4: 123 456
+[HACK] |2021-05-08 13:33:22.9012 dayfilelog_test.lua:5: 456 789
+[TRACE]|2021-05-08 13:33:22.9057 dayfilelog_test.lua:6: aaaa bbbbb
+  traceback:
+    dayfilelog_test.lua:6
+      [C]:-1
+[HACK] |2021-05-08 13:33:22.9116 dayfilelog_test.lua:8: aaaaaa: hehe
+[INFO] |2021-05-08 13:33:22.9159 dayfilelog_test.lua:9: xxxxx: 200
+[ERROR]|2021-05-08 13:33:22.9213 dayfilelog_test.lua:10: vvvvv: 200
+[TRACE]|2021-05-08 13:33:22.9255 dayfilelog_test.lua:11: yyyy: 嘿嘿
+  traceback:
+    dayfilelog_test.lua:11
+      [C]:-1
+-------------------------------------------------- 13:34:20 --------------------------------------------------
+[DEBUG]|2021-05-08 13:34:20.8627 dayfilelog_test.lua:4: 123 456
+[HACK] |2021-05-08 13:34:20.8695 dayfilelog_test.lua:5: 456 789
+[TRACE]|2021-05-08 13:34:20.8752 dayfilelog_test.lua:6: aaaa bbbbb
+  traceback:
+    dayfilelog_test.lua:6
+      [C]:-1
+[HACK] |2021-05-08 13:34:20.8813 dayfilelog_test.lua:8: aaaaaa: hehe
+[INFO] |2021-05-08 13:34:20.8855 dayfilelog_test.lua:9: xxxxx: 200
+[ERROR]|2021-05-08 13:34:20.8914 dayfilelog_test.lua:10: vvvvv: 200
+[TRACE]|2021-05-08 13:34:20.8956 dayfilelog_test.lua:11: yyyy: 嘿嘿
+  traceback:
+    dayfilelog_test.lua:11
+      [C]:-1
+-------------------------------------------------- 13:49:25 --------------------------------------------------
+[DEBUG]|2021-05-08 13:49:25.9463 dayfilelog_test.lua:4: 123 456
+[HACK] |2021-05-08 13:49:25.9534 dayfilelog_test.lua:5: 456 789
+[TRACE]|2021-05-08 13:49:25.9587 dayfilelog_test.lua:6: aaaa bbbbb
+  traceback:
+    dayfilelog_test.lua:6
+      [C]:-1
+[HACK] |2021-05-08 13:49:25.9652 dayfilelog_test.lua:8: aaaaaa: hehe
+[INFO] |2021-05-08 13:49:25.9699 dayfilelog_test.lua:9: xxxxx: 200
+[ERROR]|2021-05-08 13:49:25.9754 dayfilelog_test.lua:10: vvvvv: 200
+[TRACE]|2021-05-08 13:49:25.9799 dayfilelog_test.lua:11: yyyy: 嘿嘿
+  traceback:
+    dayfilelog_test.lua:11
+      [C]:-1

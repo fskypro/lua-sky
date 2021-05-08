@@ -1,0 +1,24 @@
+--[[
+@copyright: fantasysky 2016
+@website: https://www.fsky.pro
+@brief: implement mep function for lua table
+@author: fanky
+@version: 1.0
+@date: 2021-04-25
+--]]
+
+local map = {}
+
+function map.haskey(tb, key)
+	if type(tb) ~= "table" then
+		return false
+	end
+	for k, v in pairs(tb) do
+		if k == key then
+			return true
+		end
+	end
+	return false
+end
+
+return map
