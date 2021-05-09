@@ -14,6 +14,38 @@ local logfmt = require("fslog/logfmt").logfmt
 local fspath = require("fsos/path").path
 
 
+--------------------------------------------------------------------------------
+-- NewLogCmd
+--------------------------------------------------------------------------------
+local NewLogCmd = class("NewLogCmd")
+do
+	function NewLogCmd.f_ctor(this, cmd)
+		if type(cmd) ~= 'string' then
+			this._cmd = ""
+		else
+			this._cmd = cmd
+		end
+	end
+
+	function NewLogCmd.exec(this, logger, logPath)
+		if this._cmd == "" then
+			return
+		end
+		local ret, err = io.popen(string.format("%s '%s'", this._cmd, logPath))
+		if err ~= nil then
+			logger.error("execute new log file command fail: ", err)
+			return
+		end
+		logger.infof("excute new log file command '%s'. output:%s%s",
+			this._cmd, 
+			fsos.newline(),
+			ret:read("*all"))
+	end
+end
+
+--------------------------------------------------------------------------------
+-- DayfileLog
+--------------------------------------------------------------------------------
 local DayFileLog = class("DayFileLog")
 do
 	------------------------------------------------------------------
@@ -38,18 +70,23 @@ do
 		else
 			this._file, err = io.open(path, 'w')
 		end
+
 		if this._file ~= nil then
 			local sp = string.rep('-', 50)
 			local now = os.date('%H:%M:%S')
 			this._file:write(string.format("%s %s %s%s", sp, now, sp, fsos.newline()))
 			this._lastday = os.date("%Y%m%d")
+			this._logPath = path
+			this._newLogCmd.exec(this, path)
 		else
 			print("create logfile fail:\n\t", err)
+			this._logPath = ""
 		end
 	end
 
 	function DayFileLog._output(this, msg)
 		if not this._inited then
+			print("warn: dayfilelog hasn't intialized.")
 			print(msg)
 			return
 		end
@@ -69,6 +106,9 @@ do
 	-- private
 	------------------------------------------------------------------
 	function DayFileLog.f_ctor(this)
+		this._logPath = ""					-- log 文件路径
+		this._file = nil					-- log 文件流
+		this._newLogCmd = NewLogCmd.new()	-- 新建 log 文件时，触发的命令
 		this._inited = false
 	end
 
@@ -81,13 +121,20 @@ do
 		if type(logdir) ~= 'string' then logdir = "./logs" end
 		if type(ext) ~= 'string' then ext = ".log" end
 		if string.sub(ext, 1, 1) ~= '.' then ext = '.' .. ext end
-		this._prefix = prefix
-		this._logdir = logdir
-		this._logext = ext
-		this._file = nil
+		this._prefix = prefix				-- log 文件前缀
+		this._logdir = logdir				-- log 文件所在目录
+		this._logext = ext					-- log 文件扩展名
 
 		this._newLogFile()
 		this._inited = true
+	end
+
+	-- 设置一个可执行命令，每当新建一个 log 文件时，该命令将会被执行
+	function DayFileLog.setNewLogCmd(this, cmd)
+		this._newLogCmd = NewLogCmd.new(cmd)
+		if this._logPath ~= "" then
+			this._newLogCmd.exec(this, this._logPath)
+		end
 	end
 
 	------------------------------------------------------------

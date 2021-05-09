@@ -1,6 +1,7 @@
 local dflog = require("fsky").gDFLog
-
 dflog.init("test", "./logs")
+dflog.setNewLogCmd("./linklog.sh")
+
 dflog.debug("123", "456")
 dflog.hack("456", "789")
 dflog.trace("aaaa", "bbbbb")

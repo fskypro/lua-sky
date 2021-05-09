@@ -74,7 +74,7 @@ function _outtrace(layer)
 	
 		table.insert(segs, "\n")
 		table.insert(segs, indents)
-		table.insert(segs, string.sub(info.source, 2, -1))
+		table.insert(segs, info.short_src)
 		table.insert(segs, ":" .. info.currentline)
 		local fname = info.name
 		if fname ~= nil then
