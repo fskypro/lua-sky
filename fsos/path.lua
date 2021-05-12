@@ -7,9 +7,9 @@
 @date: 2021-05-03
 --]]
 
-local os = require("fsos/os").os
-local fsstr = require("fsstr/str").str
-local fstable = require("fstable/util").fstable
+local os = require("fsos.os").os
+local fsstr = require("fsstr.str").str
+local fstable = require("fstable.table").table
 
 ----------------------------------------------------------------------
 -- public

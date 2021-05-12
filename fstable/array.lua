@@ -9,9 +9,9 @@
 
 
 local define = require("fsdefine")
-local oo = require("fsoo/oo")
-local Error = require("fserror/error")
-local fstable = require("fstable/util").fstable
+local oo = require("fsoo.oo")
+local Error = require("fserror.error")
+local fstable = require("fstable.table").fstable
 
 local null = define.null
 
@@ -132,7 +132,7 @@ do
 
 	-- 查看数值中是否存在指定元素
 	function Array.hasValue(this, value)
-		return this.index(this, value) > 0
+		return this.index(value) > 0
 	end
 
 	--------------------------------------------------------
@@ -216,7 +216,7 @@ do
 
 	-- 删除第一个指定的元素
 	-- 删除成功返回 true，如果元素不存在，则返回 false
-	function Array.removeValueOf(this, value)
+	function Array.removeValue(this, value)
 		local index = this.index(value)
 		if index < 0 then
 			return false
@@ -225,7 +225,7 @@ do
 	end
 
 	-- 删除所有指定的元素
-	function Array.removeAllValueOf(this, value)
+	function Array.removeAllOfValue(this, value)
 		if value == nil then
 			value = null
 		end
@@ -452,6 +452,8 @@ do
 			local value = this._elems[i]
 			if value == null then
 				table.insert(elems, 'nil')
+			elseif type(value) == 'string' then
+				table.insert(elems, '"'..value..'"')
 			else
 				table.insert(elems, tostring(value))
 			end
@@ -461,7 +463,7 @@ do
 end
 
 return {
-	init = function(fsky)
+	init = function(fsky, tofsky)
 		fsky.Array = Array
 	end,
 

@@ -123,7 +123,7 @@ end
 -- initialize
 ----------------------------------------------------------------------
 return {
-	init = function(fsky)
+	init = function(fsky, tofsky)
 		fsky.str = fsstr
 	end,
 

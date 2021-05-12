@@ -9,9 +9,9 @@
 
 
 return {
-	init = function(fsky)
-		require("fstable/array").init(fsky)
-		require("fstable/hashmap").init(fsky)
-		require("fstable/util").init(fsky)
+	init = function(fsky, tofsky)
+		require("fstable.array").init(fsky, tofsky)
+		require("fstable.hashmap").init(fsky, tofsky)
+		require("fstable.table").init(fsky, tofsky)
 	end
 }

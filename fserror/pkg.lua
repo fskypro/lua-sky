@@ -9,7 +9,7 @@
 
 
 return {
-	init = function(fsky)
-		require("fserror/error").init(fsky)
+	init = function(fsky, tofsky)
+		require("fserror.error").init(fsky, tofsky)
 	end
 }

@@ -22,7 +22,7 @@ end
 -- initialize
 ----------------------------------------------------------------------
 return {
-	init = function(fsky)
+	init = function(fsky, tofsky)
 		fsky.null = null
 	end,
 

@@ -8,7 +8,7 @@
 --]]
 
 
-local fstable = require("fstable/util").fstable
+local fstable = require("fstable.table").table
 
 
 local os = {}

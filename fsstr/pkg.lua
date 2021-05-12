@@ -8,7 +8,7 @@
 --]]
 
 return {
-	init = function(fsky)
-		require("fsstr/str").init(fsky)
+	init = function(fsky, tofsky)
+		require("fsstr.str").init(fsky, tofsky)
 	end
 }

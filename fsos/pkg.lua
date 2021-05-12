@@ -9,7 +9,7 @@
 
 return {
 	init = function(fsky)
-		require("fsos/os").init(fsky)
-		require("fsos/path").init(fsky)
+		require("fsos.os").init(fsky)
+		require("fsos.path").init(fsky)
 	end
 }

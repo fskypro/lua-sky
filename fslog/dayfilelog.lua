@@ -8,22 +8,24 @@
 --]]
 
 
-local class = require("fsoo/oo").class
-local fsos = require("fsos/os").os
-local logfmt = require("fslog/logfmt").logfmt
-local fspath = require("fsos/path").path
-
+local class = require("fsoo.oo").class
+local fsos = require("fsos.os").os
+local logfmt = require("fslog.logfmt").logfmt
+local fspath = require("fsos.path").path
+local BaseLog = require("fslog.baselog").BaseLog
 
 --------------------------------------------------------------------------------
 -- NewLogCmd
 --------------------------------------------------------------------------------
 local NewLogCmd = class("NewLogCmd")
 do
-	function NewLogCmd.f_ctor(this, cmd)
+	function NewLogCmd.f_ctor(this, cmd, ...)
 		if type(cmd) ~= 'string' then
 			this._cmd = ""
+			this._args = {}
 		else
 			this._cmd = cmd
+			this._args = {...}
 		end
 	end
 
@@ -31,22 +33,29 @@ do
 		if this._cmd == "" then
 			return
 		end
-		local ret, err = io.popen(string.format("%s '%s'", this._cmd, logPath))
+		local cmd = string.format("%s '%s'", this._cmd, logPath)
+		if #this._args > 0 then
+			cmd = cmd .. " '" .. table.concat(this._args, "' '") .. "'"
+		end
+
+		local ret, err = io.popen(cmd)
 		if err ~= nil then
 			logger.error("execute new log file command fail: ", err)
 			return
 		end
-		logger.infof("excute new log file command '%s'. output:%s%s",
-			this._cmd, 
+		logger.infof(
+			"excute new-log-file command(%s). output:%s%s",
+			cmd,
 			fsos.newline(),
-			ret:read("*all"))
+			ret:read("*all")
+		)
 	end
 end
 
 --------------------------------------------------------------------------------
 -- DayfileLog
 --------------------------------------------------------------------------------
-local DayFileLog = class("DayFileLog")
+local DayFileLog = class("DayFileLog", BaseLog)
 do
 	------------------------------------------------------------------
 	-- private
@@ -106,10 +115,13 @@ do
 	-- private
 	------------------------------------------------------------------
 	function DayFileLog.f_ctor(this)
+		BaseLog.f_ctor(this)
 		this._logPath = ""					-- log 文件路径
 		this._file = nil					-- log 文件流
 		this._newLogCmd = NewLogCmd.new()	-- 新建 log 文件时，触发的命令
 		this._inited = false
+
+		this.setOutputHandler(this._output)
 	end
 
 	-- 设置 log 属性
@@ -130,73 +142,12 @@ do
 	end
 
 	-- 设置一个可执行命令，每当新建一个 log 文件时，该命令将会被执行
-	function DayFileLog.setNewLogCmd(this, cmd)
-		this._newLogCmd = NewLogCmd.new(cmd)
+	-- 可以通过不定参数设置多个命令行参数，但是第一个参数肯定是新 log 文件路径
+	function DayFileLog.setNewLogCmd(this, cmd, ...)
+		this._newLogCmd = NewLogCmd.new(cmd, ...)
 		if this._logPath ~= "" then
 			this._newLogCmd.exec(this, this._logPath)
 		end
-	end
-
-	------------------------------------------------------------
-	function DayFileLog.debug(this, msg, ...)
-		msg = logfmt.debug(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.info(this, msg, ...)
-		msg = logfmt.info(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.warn(this, msg, ...)
-		msg = logfmt.warn(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.error(this, msg, ...)
-		msg = logfmt.error(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.hack(this, msg, ...)
-		msg = logfmt.hack(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.trace(this, msg, ...)
-		msg = logfmt.trace(1, msg, ...)
-		this._output(msg)
-	end
-
-	------------------------------------------------------------
-	function DayFileLog.debugf(this, msg, ...)
-		msg = logfmt.debugf(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.infof(this, msg, ...)
-		msg = logfmt.infof(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.warnf(this, msg, ...)
-		msg = logfmt.warnf(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.errorf(this, msg, ...)
-		msg = logfmt.errorf(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.hackf(this, msg, ...)
-		msg = logfmt.hackf(1, msg, ...)
-		this._output(msg)
-	end
-
-	function DayFileLog.tracef(this, msg, ...)
-		msg = logfmt.tracef(1, msg, ...)
-		this._output(msg)
 	end
 
 	------------------------------------------------------------
@@ -211,7 +162,7 @@ end
 -- initialize
 --------------------------------------------------------------------------------
 return {
-	init = function(fsky)
+	init = function(fsky, tofsky)
 		fsky.DFLog = DayFileLog
 		fsky.gDFLog = DayFileLog.new()
 	end,

@@ -9,6 +9,6 @@
 
 return {
 	init = function(fsky)
-		require("fsoo/oo").init(fsky)
+		require("fsoo.oo").init(fsky)
 	end
 }

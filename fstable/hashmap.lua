@@ -7,9 +7,9 @@
 @date: 2021-05-02
 --]]
 
-local oo = require("fsoo/oo")
+local oo = require("fsoo.oo")
 local null = require("fsdefine").null
-local Array = require("fstable/array").Array
+local Array = require("fstable.array").Array
 
 local HashMap = oo.class("HashMap")
 do
@@ -188,7 +188,7 @@ end
 
 
 return {
-	init = function(fsky)
+	init = function(fsky, tofsky)
 		fsky.HashMap = HashMap
 	end,
 

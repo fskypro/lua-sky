@@ -8,7 +8,7 @@
 --]]
 
 
-local oo = require("fsoo/oo")
+local oo = require("fsoo.oo")
 
 local Error = oo.class("fsky.Error")
 
@@ -29,7 +29,7 @@ end
 -- load
 ----------------------------------------------------------------------
 return {
-	init = function(fsky)
+	init = function(fsky, tofsky)
 		fsky.Error = Error
 	end,
 
