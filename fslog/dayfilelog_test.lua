@@ -16,3 +16,4 @@ dflog.shieldTypes("debug")   -- 屏蔽 debug（不区分大小写）
 dflog.info("debug 类型 log 已经被屏蔽")
 dflog.debug("7890")
 dflog.error("dfghdfgh")
+

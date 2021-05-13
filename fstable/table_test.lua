@@ -29,4 +29,18 @@ print(fstable.dictout(tb1))
 local tb2 = fstable.union(dict, {cc = 400})
 print(fstable.dictout(tb2))
 
+-- 格式化字典 table
+print(fstable.dictfmt({
+	aa= 100,
+	bb = 200,
+	cc = 300,
+	dd = {
+		xxx = "abc",
+		yy = 400,
+		zz = {
+			kk = "EF",
+			vv = "GG"
+		}
+	}
+}, 0, ">>"))
 

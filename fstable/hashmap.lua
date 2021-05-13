@@ -9,21 +9,45 @@
 
 local oo = require("fsoo.oo")
 local null = require("fsdefine").null
+local fsutil = require("fsutil").util
 local Array = require("fstable.array").Array
 
 local HashMap = oo.class("HashMap")
 do
+	local function isHashMap(obj)
+		if type(obj) ~= 'table' then
+			return false
+		end
+		if not fsutil.callable(obj.f_isa) then
+			return false
+		end
+		return obj.f_isa(HashMap)
+	end
+
+	--------------------------------------------------------
+	-- public
+	--------------------------------------------------------
 	function HashMap.f_ctor(this, other)
 		this._members = {}
 		this.update(other)
 	end
 
+	-- 返回元素个数
+	function HashMap.count(this)
+		local count = 0
+		for _ in pairs(this._members) do
+			count = count + 1
+		end
+		return count
+	end
+
 	-- 用另一个 hashmap 或者 table 更新内部元素
 	function HashMap.update(this, other)
-		if other == this or type(other) ~= 'table' then
+		if other == nil or other == this
+		or type(other) ~= 'table' then
 			return
 		end
-		if other.f_isa and other.f_isa(HashMap) then
+		if isHashMap(other) then
 			for k, v in pairs(other._members) do
 				this._members[k] = v
 			end
@@ -145,6 +169,41 @@ do
 	end
 
 	--------------------------------------------------------
+	-- 格式化输出
+	--   deep 为展开深度，默认为 1，只展开第一层 table，如果小等于 0，则全部展开
+	--   prefix 为所有行前缀，默认为空字符串
+	--   ident 为嵌套缩进，默认为四个空格
+	-- 注意：只对 HashMap 展开，不对 table 展开
+	function HashMap.fmt(this, deep, prefix, ident)
+		if type(deep) ~= 'number' then deep = 1 end
+		if type(prefix) ~= 'string' then prefix = "" end
+		if type(ident) ~= 'string' then ident = "    " end
+
+		local strs = {prefix}
+		local function extend(obj, layer)
+			if isHashMap(obj) and (layer < deep or deep <= 0) then
+				table.insert(strs, this.m_class.cm_name .. '{\n')
+				local left = prefix .. string.rep(ident, layer+1)
+				for k, v in pairs(obj._members) do
+					table.insert(strs, left)
+					table.insert(strs, tostring(k) .. ' = ')
+					extend(v, layer+1)
+					table.insert(strs, ',\n')
+				end
+				left = prefix .. string.rep(ident, layer)
+				table.insert(strs, left .. '}')
+			elseif type(obj) == 'string' then
+				table.insert(strs, '"'..tostring(obj)..'"')
+			else
+				table.insert(strs, tostring(obj))
+			end
+		end
+		print("aaaa", this.count())
+		extend(this, 0)
+		return table.concat(strs, '')
+	end
+
+	--------------------------------------------------------
 	-- 元方法
 	--------------------------------------------------------
 	-- 返回一个新的 hashmap 对象，该对象由 other 更新 this 所得
@@ -158,7 +217,7 @@ do
 		if type(other) ~= 'table' then 
 			return hm
 		end
-		if other.f_isa and other.f_isa(HashMap) then
+		if isHashMap(other) then
 			for k, v in pairs(other._members) do
 				hm._members[k] = v
 			end
@@ -182,7 +241,7 @@ do
 			if v == null then v = nil end
 			table.insert(items, tostring(k) .. "=" .. tostring(v))
 		end
-		return "HashMap{" .. table.concat(items, ",") .. "}"
+		return this.m_class.cm_name .. "{" .. table.concat(items, ",") .. "}"
 	end
 end
 

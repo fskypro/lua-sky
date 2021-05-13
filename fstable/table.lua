@@ -94,7 +94,7 @@ function fstable.listout(tb)
 	return 'Table[' .. table.concat(items, ',') .. ']'
 end
 
--- 字符串形式列出所有映射表元素
+-- 字符串形式列出所有映射表元素，只展开第一层
 function fstable.dictout(tb)
 	local items = {}
 	for k, v in pairs(tb) do
@@ -106,6 +106,38 @@ function fstable.dictout(tb)
 		table.insert(items, tostring(k) .. '=' .. v)
 	end
 	return 'Table{' .. table.concat(items, ',') .. '}'
+end
+
+-- 格式化列出所有映射表元素
+--   deep 为展开深度，默认为 1，只展开第一层 table，如果小等于 0，则全部展开
+--   prefix 为所有行前缀，默认为空字符串
+--   ident 为嵌套缩进，默认为四个空格
+function fstable.dictfmt(tb, deep, prefix, ident)
+	if type(deep) ~= 'number' then deep = 1 end
+	if type(prefix) ~= 'string' then prefix = "" end
+	if type(ident) ~= 'string' then ident = "    " end
+
+	local strs = {prefix}
+	local function extend(obj, layer)
+		if type(obj) == 'table' and (layer < deep or deep <= 0) then
+			table.insert(strs, '{\n')
+			local left = prefix .. string.rep(ident, layer+1)
+			for k, v in pairs(obj) do
+				table.insert(strs, left)
+				table.insert(strs, tostring(k) .. ' = ')
+				extend(v, layer+1)
+				table.insert(strs, ',\n')
+			end
+			left = prefix .. string.rep(ident, layer)
+			table.insert(strs, left .. '}')
+		elseif type(obj) == 'string' then
+			table.insert(strs, '"'..tostring(obj)..'"')
+		else
+			table.insert(strs, tostring(obj))
+		end
+	end
+	extend(tb, 0)
+	return table.concat(strs, '')
 end
 
 ----------------------------------------------------------------------

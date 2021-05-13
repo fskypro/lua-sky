@@ -10,9 +10,12 @@
 
 local class = require("fsoo.oo").class
 local fsos = require("fsos.os").os
-local logfmt = require("fslog.logfmt").logfmt
 local fspath = require("fsos.path").path
+local fsutil = require("fsutil").util
+
+local logfmt = require("fslog.logfmt").logfmt
 local BaseLog = require("fslog.baselog").BaseLog
+
 
 --------------------------------------------------------------------------------
 -- NewLogCmd
@@ -33,7 +36,7 @@ do
 		if this._cmd == "" then
 			return
 		end
-		local cmd = string.format("%s '%s'", this._cmd, logPath)
+		local cmd = string.format("%s %q", this._cmd, logPath)
 		if #this._args > 0 then
 			cmd = cmd .. " '" .. table.concat(this._args, "' '") .. "'"
 		end
@@ -91,6 +94,9 @@ do
 			print("create logfile fail:\n\t", err)
 			this._logPath = ""
 		end
+		if this._newLogCB then
+			this._newLogCB(path, err) 
+		end
 	end
 
 	function DayFileLog._output(this, msg)
@@ -119,6 +125,7 @@ do
 		this._logPath = ""					-- log 文件路径
 		this._file = nil					-- log 文件流
 		this._newLogCmd = NewLogCmd.new()	-- 新建 log 文件时，触发的命令
+		this._newLogCB = nil				-- 新建 log 文件回调函数
 		this._inited = false
 
 		this.setOutputHandler(this._output)
@@ -148,6 +155,19 @@ do
 		if this._logPath ~= "" then
 			this._newLogCmd.exec(this, this._logPath)
 		end
+	end
+
+	-- 设置新建 log 文件回调
+	-- cb 必须是可调用对象，或者 nil，如果是可调用对象，则带两个参数：
+	--   path：新建 log 文件的路径
+	--   err ：wei nil，则创建 log 成功，为非空字符串，则创建新 log 文件失败，并指示失败原因
+	function DayFileLog.setNewLogCallback(this, cb)
+		if cb == nil then
+			this._newLogCB = nil
+			return
+		end
+		assert(fsutil.callable(cb), "new-log-file callback must be callable.")
+		this._newLogCB = cb
 	end
 
 	------------------------------------------------------------

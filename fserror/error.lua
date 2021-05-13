@@ -12,7 +12,7 @@ local oo = require("fsoo.oo")
 
 local Error = oo.class("fsky.Error")
 
-function Error:f_ctor(this, msg, ...)
+function Error.f_ctor(this, msg, ...)
 	local count = select('#', ...)
 	if count > 0 then
 		this._message = string.format(msg, ...)
@@ -21,7 +21,7 @@ function Error:f_ctor(this, msg, ...)
 	end
 end
 
-function Error:message(this)
+function Error.message(this)
 	return this._message
 end
 
