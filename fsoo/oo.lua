@@ -90,19 +90,19 @@ end
 -- method
 -- 成员方法封装
 ----------------------------------------------------------------------
-local function _createmethod(obj, func)
-	local m = {this = obj, func = func}
-	local addr = _tableaddr(m)
-	setmetatable(m, {
+local function _createmethod(obj, name, func)
+	local method = {this = obj, name = name, func = func}
+	local addr = _tableaddr(method)
+	setmetatable(method, {
 		__call = function(a, ...)
-			return m.func(m.this, ...)
+			return method.func(method.this, ...)
 		end,
 
 		__tostring = function()
 			return string.format("class(%s) inst method: %s", obj.m_class.cm_name, addr)
 		end
 	})
-	return m
+	return method
 end
 
 ----------------------------------------------------------------------
@@ -242,7 +242,7 @@ local function class(name, ...)
 	function cls.__index(obj, key)
 		local prop = getclsprop(cls, key)
 		if type(prop) == 'function' then
-			return _createmethod(obj, prop)
+			return _createmethod(obj, key, prop)
 		end
 		return prop
 	end

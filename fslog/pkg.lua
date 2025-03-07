@@ -11,6 +11,7 @@
 return {
 	init = function(fsky, tofsky)
 		require("fslog.logfmt").init(fsky, tofsky)
+		require("fslog.baselog").init(fsky, tofsky)
 		require("fslog.dayfilelog").init(fsky, tofsky)
 	end
 }

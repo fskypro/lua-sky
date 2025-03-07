@@ -19,6 +19,10 @@ local dict = {
 	bb = 200,
 	cc = 300,
 	[10] = 50,
+	dd = {
+		xx = "abc",
+		yy = 444,
+	}
 }
 
 print(fstable.dictout(dict))
@@ -30,7 +34,7 @@ local tb2 = fstable.union(dict, {cc = 400})
 print(fstable.dictout(tb2))
 
 -- 格式化字典 table
-print(fstable.dictfmt({
+print(fs_dfmt({
 	aa= 100,
 	bb = 200,
 	cc = 300,

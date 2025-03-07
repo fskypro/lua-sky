@@ -10,6 +10,27 @@
 local fstable = {}
 
 ------------------------------------------------------------
+-- 判断是否存在指定的值
+function fstable.hasvalue(tb, value)
+	for _, v in pairs(tb) do
+		if v == value then
+			return true
+		end
+	end
+	return false
+end
+
+------------------------------------------------------------
+-- 计算表长度
+function fstable.length(tb)
+	local len = 0
+	for k, _ in pairs(tb) do
+		len = len + 1
+	end
+	return len
+end
+
+------------------------------------------------------------
 -- 获取 table 的所有 key，以新的 table 返回
 function fstable.keysof(tb)
 	local keys = {}
@@ -61,6 +82,24 @@ function fstable.union(tb1, ...)
 	return newtb
 end
 
+-- 忽略 key，将所有 table 的 value 合并成一个 table(数组)
+function fstable.concat(tb1, ...)
+	local newtb = {}
+	local index = 1
+	for k, v in pairs(tb1) do
+		newtb[index] = v
+		index = index + 1
+	end
+
+	for _, tb in pairs({...}) do
+		for k, v in pairs(tb) do
+			newtb[index] = v
+			index = index + 1
+		end
+	end
+	return newtb
+end
+
 ------------------------------------------------------------
 -- 对数组 table 元素进行翻转
 function fstable.reverse(tb)
@@ -75,6 +114,9 @@ end
 ------------------------------------------------------------
 -- 字符串形式列出所有数组表元素
 function fstable.listout(tb)
+	if type(tb) == 'string' then return '"' .. tb .. '"' end
+	if type(tb) ~= 'table' then return tostring(tb) end
+
 	local items = {}
 	local idx = 1
 	for k, v in pairs(tb) do
@@ -85,27 +127,33 @@ function fstable.listout(tb)
 		end
 		if type(v) == 'string' then
 			v = '"' .. v .. '"'
+		elseif type(v) == 'table' then
+			v = fstable.listout(v)
 		else
 			v = tostring(v)
 		end
 		table.insert(items, v)
 		idx = k + 1
 	end
-	return 'Table[' .. table.concat(items, ',') .. ']'
+	return '[' .. table.concat(items, ',') .. ']'
 end
 
 -- 字符串形式列出所有映射表元素，只展开第一层
 function fstable.dictout(tb)
+	if type(tb) == 'string' then return '"' .. tb .. '"' end
+	if type(tb) ~= 'table' then return tostring(tb) end
 	local items = {}
 	for k, v in pairs(tb) do
 		if type(v) == 'string' then
 			v = '"' .. v .. '"'
+		elseif type(v) == 'table' then
+			v = fstable.dictout(v)
 		else
 			v = tostring(v)
 		end
 		table.insert(items, tostring(k) .. '=' .. v)
 	end
-	return 'Table{' .. table.concat(items, ',') .. '}'
+	return '{' .. table.concat(items, ',') .. '}'
 end
 
 -- 格式化列出所有映射表元素
@@ -113,9 +161,12 @@ end
 --   prefix 为所有行前缀，默认为空字符串
 --   ident 为嵌套缩进，默认为四个空格
 function fstable.dictfmt(tb, deep, prefix, ident)
+	if type(tb) == 'string' then return '"' .. tb .. '"' end
+	if type(tb) ~= 'table' then return tostring(tb) end
+
 	if type(deep) ~= 'number' then deep = 1 end
 	if type(prefix) ~= 'string' then prefix = "" end
-	if type(ident) ~= 'string' then ident = "    " end
+	if type(ident) ~= 'string' then ident = "	" end
 
 	local strs = {prefix}
 	local function extend(obj, layer)

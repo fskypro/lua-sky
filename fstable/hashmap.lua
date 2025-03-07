@@ -74,8 +74,20 @@ do
 		return value
 	end
 
-	-- 设置指定 key 的值，如果 key 不存在，则增加一个 item
+	-- 设置指定 key 的值，设置成功返回 true；如果 key 不存在，则返回 false
 	function HashMap.set(this, key, value)
+		if this._members[key] == nil then
+			return false
+		end
+		if value == nil then
+			value = null
+		end
+		this._members[key] = value
+		return true
+	end
+
+	-- 添加一个键值对，如果键已经存在，则更新值
+	function HashMap.add(this, key, value)
 		if value == nil then
 			value = null
 		end

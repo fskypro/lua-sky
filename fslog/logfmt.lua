@@ -24,7 +24,7 @@ local function _output(layer, prefix, msg, ...)
 	local segs = {
 		prefix,
 		_gettime(),
-		" ",
+		" |",
 		string.sub(info.source, 2, -1),
 		":",
 		info.currentline,
@@ -42,7 +42,7 @@ local function _outputf(layer, prefix, msg, ...)
 	local segs = {
 		prefix,
 		_gettime(),
-		" ",
+		" |",
 		string.sub(info.source, 2, -1),
 		":",
 		info.currentline,
