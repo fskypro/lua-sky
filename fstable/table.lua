@@ -191,6 +191,22 @@ function fstable.dictfmt(tb, deep, prefix, ident)
 	return table.concat(strs, '')
 end
 
+-- 深度复制一个 table
+function fstable.deepcopy(src)
+	local srctype = type(src)
+	local dst
+	if srctype == 'table' then
+		dst = {}
+		for srckey, srcvalue in next, src, nil do
+			dst[fstable.deepcopy(srckey)] = fstable.deepcopy(srcvalue) -- 递归复制 key 和 value
+		end
+		setmetatable(dst, fstable.deepcopy(getmetatable(src)))   -- 复制元表（如果有）
+	else
+		dst = src
+	end
+	return dst
+end
+
 ----------------------------------------------------------------------
 -- initialize
 ----------------------------------------------------------------------
